@@ -7,7 +7,7 @@ runs:
     uses: actions/checkout@v4
 #    if: ${{ inputs.reuse_eit_packer_templates == true }}
     with:
-      repository: ghostfacts/gitactions
+      repository: ghostfacts/checkov
       ref: main
       path: /home/runner/work/_temp/_github_workflow/checkov/
       token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
