@@ -3,9 +3,11 @@ description: "Running Checkov in actions"
 #inputs
 #outputs
 runs:
-  - name: Retrive custom Checks
-    uses: actions/checkout@v4
-    with:
-      repository: ghostfacts/checkov
-      ref: main
-      path: /home/runner/work/_temp/_github_workflow/checkov/
+  using: "composite"
+  steps:
+    - name: Custom Checks
+      uses: actions/checkout@v4
+      with:
+        repository: ghostfacts/checkov
+        ref: main
+        path: /home/runner/work/_temp/_github_workflow/checkov/
