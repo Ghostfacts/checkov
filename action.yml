@@ -15,9 +15,11 @@ runs:
         sparse-checkout: |
           checkov_config.yml
           custom_policy
-          
+
     - name: merge configs
-      run: ls -hal
+      run: |
+        ls -hal
+        sudo apt-get install -y yq
       shell: bash
 
     - name: Scan code
