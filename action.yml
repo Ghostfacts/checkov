@@ -59,3 +59,4 @@ runs:
       run: |
         echo "Checkov found some issues"
         exit 1
+      shell: bash      
