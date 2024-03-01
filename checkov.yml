@@ -1,0 +1,9 @@
+---
+skip-check:
+  - aws-tags
+
+framework:
+  - terraform
+  - terraform_json
+  - terraform_plan
+  - serverless
