@@ -15,7 +15,8 @@ runs:
         sparse-checkout: |
           checkov.yml
           custom_policy
-    - run: |
+    - name: test
+      run: |
         ls -hal
     - name: Scan code
       id: checkov
