@@ -3,7 +3,7 @@ description: "Running Checkov in actions"
 #inputs
 #outputs
 runs:
-#  using: "composite"
+  using: "composite"
   steps:
     - name: Custom Checks
       uses: actions/checkout@v4
