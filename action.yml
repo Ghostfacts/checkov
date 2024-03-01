@@ -10,4 +10,9 @@ runs:
       with:
         repository: ghostfacts/checkov
         ref: main
-        path: /home/runner/work/_temp/_github_workflow/checkov/
+        path: checkov
+        fetch-depth: 0
+        sparse-checkout: |
+          checkov.yml
+          custom_policy
+
