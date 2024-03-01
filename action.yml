@@ -22,6 +22,9 @@ runs:
         sudo apt update
         sudo apt install yq -y
         ls -hal
+        if [ -s ".checkov.yaml" ]; then
+            yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yaml .checkov.yaml --inplace
+        fi
       shell: bash
 
     - name: Scan code
