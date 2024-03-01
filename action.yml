@@ -34,10 +34,11 @@ runs:
         if [ -s ".checkov.yml" ]; then
             yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml .checkov.yml --inplace
         fi
-        
+
         # if [ -s ${{inputs.config}} ]; then
         #     yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml ${{inputs.config}} --inplace
         # fi
+        cat checkov/checkov_config.yml
       shell: bash
 
     - name: Scan code
