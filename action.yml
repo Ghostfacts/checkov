@@ -5,9 +5,7 @@ description: "Running Checkov in actions"
 runs:
   - name: Retrive custom Checks
     uses: actions/checkout@v4
-#    if: ${{ inputs.reuse_eit_packer_templates == true }}
     with:
       repository: ghostfacts/checkov
       ref: main
       path: /home/runner/work/_temp/_github_workflow/checkov/
-      token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
