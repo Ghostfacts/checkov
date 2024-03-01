@@ -16,6 +16,7 @@ runs:
           checkov_config.yml
           custom_policy
     - name: merge configs
+      shell: bash -euxo pipefail {0}
       run: ls -hal
     - name: Scan code
       id: checkov
