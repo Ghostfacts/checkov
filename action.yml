@@ -15,10 +15,6 @@ runs:
         sparse-checkout: |
           checkov.yml
           custom_policy
-    - name: test
-      shell: bash
-      run: |
-        ls -hal
     - name: Scan code
       id: checkov
       uses: bridgecrewio/checkov-action@v12
