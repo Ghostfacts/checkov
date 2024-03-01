@@ -3,7 +3,7 @@ description: "Running Checkov in actions"
 #inputs
 #outputs
 runs:
-  using: "composite"
+#  using: "composite"
   steps:
     - name: Custom Checks
       uses: actions/checkout@v4
@@ -15,4 +15,19 @@ runs:
         sparse-checkout: |
           checkov.yml
           custom_policy
+    - name: Scan code
+      id: checkov
+      uses: bridgecrewio/checkov-action@v12
+      env:
+        GITHUB_OVERRIDE_URL: true
+      continue-on-error: true
+      with:
+        config_file: /github/workflow/checkov/checkov.yml
+        external_checks_dirs: /github/workflow/checkov/custom_policy/
+        skip_check: testck
+        output_file_path: console,results.sarif
+        download_external_modules: true
+        github_pat: ${{ secrets.token }}
+        quiet: true
+      
 
