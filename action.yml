@@ -15,9 +15,11 @@ runs:
         sparse-checkout: |
           checkov_config.yml
           custom_policy
+          
     - name: merge configs
-      shell: bash -euxo pipefail {0}
       run: ls -hal
+      shell: bash
+
     - name: Scan code
       id: checkov
       uses: bridgecrewio/checkov-action@v12
