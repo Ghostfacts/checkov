@@ -1,7 +1,16 @@
 name: "Checkov"
 description: "Running Checkov in actions"
-#inputs
-#outputs
+inputs:
+  config:
+    description: "Path co custom config"
+    required: false
+    type: string
+    default: ""
+outputs:
+  checkov:
+    description: "checkovresults"
+    value: ${{ steps.checkov.outcome}}
+
 runs:
   using: "composite"
   steps:
@@ -16,15 +25,18 @@ runs:
           checkov_config.yml
           custom_policy
 
-    - name: merge configs
+    - name: Merge Checkov Configs
       run: |
-        sudo add-apt-repository ppa:rmescandon/yq
-        sudo apt update
-        sudo apt install yq -y
-        ls -hal
+        sudo add-apt-repository ppa:rmescandon/yq; sudo apt update; sudo apt install yq -y
         if [ -s ".checkov.yaml" ]; then
-            yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yaml .checkov.yaml --inplace
+            yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml .checkov.yaml --inplace
         fi
+        if [ -s ".checkov.yml" ]; then
+            yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml .checkov.yml --inplace
+        fi
+        # if [ -s ${{input.config}} ]; then
+        #     yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml ${{input.config}} --inplace
+        # fi
       shell: bash
 
     - name: Scan code
