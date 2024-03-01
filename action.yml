@@ -29,7 +29,7 @@ runs:
         skip_check: testck
         output_file_path: console,results.sarif
         download_external_modules: true
-        github_pat: ${{ secrets.token }}
+        # github_pat: ${{ secrets.token }}
         quiet: true
       
 
