@@ -22,8 +22,8 @@ runs:
         GITHUB_OVERRIDE_URL: true
       continue-on-error: true
       with:
-        config_file: /github/workflow/checkov/checkov.yml
-        external_checks_dirs: /github/workflow/checkov/custom_policy/
+        config_file: /github/workspace/checkov/checkov.yml
+        external_checks_dirs: /github/workspace/checkov/custom_policy/
         skip_check: testck
         output_file_path: console,results.sarif
         download_external_modules: true
