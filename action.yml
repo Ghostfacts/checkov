@@ -6,9 +6,12 @@ inputs:
     required: false
     type: string
     default: ""
-  secrets:
-    token:
-      required: true
+  apitoken:
+    description: "Secuirty token"
+    required: true
+    type: string
+    default: "" 
+
 outputs:
   checkov_results:
     description: "checkovresults"
