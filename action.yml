@@ -12,7 +12,7 @@ outputs:
     value: ${{ steps.checkov.outcome}}
 
 runs:
-  using: "node20"
+  using: "composite"
   steps:
     - name: Custom Checks
       uses: actions/checkout@v4
