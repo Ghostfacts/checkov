@@ -6,11 +6,8 @@ inputs:
     required: false
     type: string
     default: ""
-  secrets:
-    token:
-      required: true
-
-
+  githubapi:
+    required: true
 
 outputs:
   checkov_results:
@@ -59,7 +56,7 @@ runs:
         external_checks_dirs: /github/workspace/checkov/custom_policy/
         output_file_path: console,results.sarif
         download_external_modules: true
-        github_pat: ${{ secrets.token }}
+        github_pat: ${{ inputs.githubapi }}
         quiet: true
 #send results over
     - name: Checkov Failed
