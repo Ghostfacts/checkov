@@ -20,7 +20,7 @@ runs:
     - name: Custom Checks
       uses: actions/checkout@v4
       with:
-        repository: ghostfacts/checkovZ
+        repository: ghostfacts/checkov
         ref: main
         path: checkov
         fetch-depth: 0
