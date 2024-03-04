@@ -6,8 +6,11 @@ inputs:
     required: false
     type: string
     default: ""
+  secrets:
+    token:
+      required: true
 outputs:
-  checkov:
+  checkov_results:
     description: "checkovresults"
     value: ${{ steps.checkov.outcome}}
 
@@ -17,7 +20,7 @@ runs:
     - name: Custom Checks
       uses: actions/checkout@v4
       with:
-        repository: ghostfacts/checkov
+        repository: ghostfacts/checkovZ
         ref: main
         path: checkov
         fetch-depth: 0
@@ -37,10 +40,9 @@ runs:
             yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml .checkov.yml --inplace
         fi
 
-        # if [ -s ${{inputs.config}} ]; then
-        #     yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml ${{inputs.config}} --inplace
-        # fi
-        cat checkov/checkov_config.yml
+        if [ -s ${{inputs.config}} ]; then
+            yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml ${{inputs.config}} --inplace
+        fi
       shell: bash
 
     - name: Scan code
@@ -52,12 +54,11 @@ runs:
       with:
         config_file: /github/workspace/checkov/checkov_config.yml
         external_checks_dirs: /github/workspace/checkov/custom_policy/
-        # skip_check: testck
         output_file_path: console,results.sarif
         download_external_modules: true
-        # github_pat: ${{ secrets.token }}
+        github_pat: ${{ secrets.token }}
         quiet: true
-      
+#send results over
     - name: Checkov Failed
       if: steps.checkov.outcome == 'failure'
       run: |
