@@ -41,6 +41,7 @@ runs:
         fi
 
         if [ -s ${{inputs.config}} ]; then
+            echo "Found ${{inputs.config}}"
             yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml ${{inputs.config}} --inplace
         fi
       shell: bash
