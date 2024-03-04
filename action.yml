@@ -6,11 +6,11 @@ inputs:
     required: false
     type: string
     default: ""
-  apitoken:
-    description: "Secuirty token"
-    required: true
-    type: string
-    default: "" 
+  secrets:
+    token:
+      required: true
+
+
 
 outputs:
   checkov_results:
