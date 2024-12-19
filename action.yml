@@ -38,9 +38,18 @@ runs:
           checkov_config.yml
           custom_policy
 
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.x  # Use any supported Python version
+    
+    - name: Install yq
+      run: |
+        python -m pip install yq
+      shell: bash
+
     - name: Merge Checkov Configs
       run: |
-        sudo add-apt-repository ppa:rmescandon/yq; sudo apt update; sudo apt install yq -y
         if [ -s ".checkov.yaml" ]; then
             echo "Found File .checkov.yaml"
             yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml .checkov.yaml --inplace
