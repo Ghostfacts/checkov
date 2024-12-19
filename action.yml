@@ -1,6 +1,16 @@
 name: "Checkov"
 description: "Running Checkov in actions"
 inputs:
+  path:
+    description: "Path to the code"
+    required: false
+    type: string
+    default: ""
+  planfilename:
+    description: "name of the plan file"
+    required: false
+    type: string
+    default: ""
   config:
     description: "Path co custom config"
     required: false
@@ -59,10 +69,11 @@ runs:
         download_external_modules: true
         github_pat: ${{ inputs.githubapi }}
         quiet: true
+        file: ${{ inputs.path }}/${{ inputs.planfilename }}
 #send results over
     - name: Checkov Failed
       if: steps.checkov.outcome == 'failure'
       run: |
         echo "Checkov found some issues"
         exit 1
-      shell: bash      
+      shell: bash

@@ -1,9 +1,4 @@
 ---
-skip-check:
-  - aws-tags
-
-framework:
-  - terraform
-  - terraform_json
-  - terraform_plan
-  - serverless
+checks:
+  - CKV_AWS_*
+  - CKV2_AWS_*
