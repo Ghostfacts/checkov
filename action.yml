@@ -48,22 +48,10 @@ runs:
         python -m pip install yq
       shell: bash
 
-    - name: Merge Checkov Configs
-      run: |
-        if [ -s ".checkov.yaml" ]; then
-            echo "Found File .checkov.yaml"
-            yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml .checkov.yaml --inplace
-        fi
-        if [ -s ".checkov.yml" ]; then
-            echo "Found File .checkov.yml"
-            yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml .checkov.yml --inplace
-        fi
-
-        if [ -s ${{inputs.config}} ]; then
-            echo "Found ${{inputs.config}}"
-            yq eval-all '. as $item ireduce ({}; . *+ $item)' checkov/checkov_config.yml ${{inputs.config}} --inplace
-        fi
-      shell: bash
+    # - name: Merge Checkov Configs
+    #   run: |
+    #     yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' checkov/checkov_config.yml ${{ inputs.config }} > checkov/checkov_config.yml
+    #   shell: bash
 
     - name: Scan code
       id: checkov
