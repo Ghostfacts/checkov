@@ -1,4 +1,4 @@
 ---
-checks:
+check:
   - CKV_AWS_*
   - CKV2_AWS_*
