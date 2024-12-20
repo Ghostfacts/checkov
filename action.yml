@@ -71,9 +71,9 @@ runs:
         fi
 
         if [ -n "$additional_configs" ]; then
-          yq eval-all '. as $item ireduce ({}; . *+ $item )' $base_config $additional_configs > /tmp/merged_config.yaml
+          yq eval-all '. as $item ireduce ({}; . *+ $item )' $base_config $additional_configs > $use_config
         else
-          cp $base_config /tmp/merged_config.yaml
+          cp $base_config $use_config
         fi
 
     - name: Scan code
