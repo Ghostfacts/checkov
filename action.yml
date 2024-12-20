@@ -53,8 +53,8 @@ runs:
       run: |
         echo "Reading base config from checkov_config.yaml"
         REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)
-        base_config="/home/runner/work/$REPO_NAME/checkov/checkov_config.yml"
-        use_config="/home/runner/work/$REPO_NAME/checkov/config.yml"
+        base_config="/home/runner/work/$REPO_NAME/$REPO_NAME/checkov/checkov_config.yml"
+        use_config="/home/runner/work/$REPO_NAME/$REPO_NAME/checkov/config.yml"
         additional_configs=""
         
         echo $base_config
