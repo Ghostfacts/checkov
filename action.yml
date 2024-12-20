@@ -52,13 +52,13 @@ runs:
       shell: bash
       run: |
         echo "Reading base config from checkov_config.yaml"
-        base_config="/github/workspace/checkov/checkov_config.yml"
-        use_config="/github/workspace/checkov/config.yml"
+        base_config="/home/runner/work/${{ github.repository }}/checkov/checkov_config.yml"
+        use_config="/home/runner/work/${{ github.repository }}/checkov/config.yml"
         additional_configs=""
         
         echo $base_config
         ls -hal $base_config
-
+        
         if [ -n "${{ inputs.configfile }}" ]; then
           additional_configs="$additional_configs ${{ inputs.configfile }}"
         fi      
@@ -68,10 +68,11 @@ runs:
           echo "Found .checkov.yml"
           additional_configs="$additional_configs .checkov.yml"
         fi
+
         if [ -n "$additional_configs" ]; then
-          yq eval-all '. as $item ireduce ({}; . *+ $item )' $base_config $additional_configs > $use_config
+          yq eval-all '. as $item ireduce ({}; . *+ $item )' $base_config $additional_configs > /tmp/merged_config.yaml
         else
-          cp $base_config $use_config
+          cp $base_config /tmp/merged_config.yaml
         fi
 
     - name: Scan code
@@ -80,7 +81,7 @@ runs:
       env:
         GITHUB_OVERRIDE_URL: true
       with:
-        config_file: /github/workspace/checkov/checkov_config.yml
+        config_file: /github/workspace/checkov/config.yml
         external_checks_dirs: /github/workspace/checkov/custom_policy/
         file: ${{ inputs.path }}/${{ inputs.planfilename }}
         repo_root_for_plan_enrichment: ${{ inputs.path }}
