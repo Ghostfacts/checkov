@@ -11,7 +11,7 @@ inputs:
     required: false
     type: string
     default: ""
-  config:
+  configfile:
     description: "Path co custom config"
     required: false
     type: string
@@ -48,10 +48,33 @@ runs:
         python -m pip install yq
       shell: bash
 
-    # - name: Merge Checkov Configs
-    #   run: |
-    #     yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' checkov/checkov_config.yml ${{ inputs.config }} > checkov/checkov_config.yml
-    #   shell: bash
+    - name: Merge Checkov Configs
+      shell: bash
+      run: |
+        echo "Reading base config from checkov_config.yaml"
+        REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)
+        base_config="/home/runner/work/$REPO_NAME/$REPO_NAME/checkov/checkov_config.yml"
+        use_config="/home/runner/work/$REPO_NAME/$REPO_NAME/checkov/config.yml"
+        additional_configs=""
+        
+        echo $base_config
+        ls -hal $base_config
+        
+        if [ -n "${{ inputs.configfile }}" ]; then
+          additional_configs="$additional_configs ${{ inputs.configfile }}"
+        fi      
+        if [ -f ".checkov.yaml" ]; then
+          additional_configs="$additional_configs .checkov.yaml"
+        elif [ -f ".checkov.yml" ]; then
+          echo "Found .checkov.yml"
+          additional_configs="$additional_configs .checkov.yml"
+        fi
+
+        if [ -n "$additional_configs" ]; then
+          yq eval-all '. as $item ireduce ({}; . *+ $item )' $base_config $additional_configs > $use_config
+        else
+          cp $base_config $use_config
+        fi
 
     - name: Scan code
       id: checkov
@@ -59,7 +82,7 @@ runs:
       env:
         GITHUB_OVERRIDE_URL: true
       with:
-        config_file: /github/workspace/checkov/checkov_config.yml
+        config_file: /github/workspace/checkov/config.yml
         external_checks_dirs: /github/workspace/checkov/custom_policy/
         file: ${{ inputs.path }}/${{ inputs.planfilename }}
         repo_root_for_plan_enrichment: ${{ inputs.path }}
