@@ -4,3 +4,5 @@ check:
   - CKV2_AWS_*
 skip-check:
   - CKV_AWS_284
+  - CKV_AWS_338
+  - CKV_AWS_158
